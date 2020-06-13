@@ -5,16 +5,16 @@ import 'package:barcode_scan/barcode_scan.dart';
 // import 'package:easy_contact_picker/easy_contact_picker.dart';
 // import 'package:contact_picker/contact_picker.dart';
 
-class PhoneInput extends StatefulWidget {
+class TilNumber extends StatefulWidget {
   Function onChange;
-  PhoneInput({this.onChange}) {}
+  TilNumber({this.onChange}) {}
   @override
   State<StatefulWidget> createState() {
-    return _PhoneInput(onChange: this.onChange);
+    return _TilNumber(onChange: this.onChange);
   }
 }
 
-class _PhoneInput extends State<PhoneInput> {
+class _TilNumber extends State<TilNumber> {
   Function onChange;
   String value;
 
@@ -22,7 +22,7 @@ class _PhoneInput extends State<PhoneInput> {
   Contact _contact;
   var textController = new TextEditingController();
 
-  _PhoneInput({this.onChange}) {}
+  _TilNumber({this.onChange}) {}
   @override
   Widget build(BuildContext context) {
     return Container(

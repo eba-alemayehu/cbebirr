@@ -14,31 +14,40 @@ class CBEBirr {
   static const String CAHNGE_PIN = "2";
   static const String CAHNGE_LANGUAGE = "3";
   static const String CAHNGE_SECRET_WORD = "4";
+  static const String FOR_ME = "1";
+  static const String FOR_OTHERS = "2";
+  static const String PHONE = "1";
+  static const String OK = "1";
 
   String pin;
 
   CBEBirr(this.pin);
 
-  void send_money({@required String receiver, @required double amount}) {
-    send_ussd_request([CBEBirr.SEND_MONEY, receiver, amount.toString()]);
-  }
+  void balance() => sendUssdRequest([CBEBirr.BALANCE], confirmation: false);
 
-  void balance() {
-    send_ussd_request([CBEBirr.BALANCE]);
-  }
+  void buyAirtime(String amount) =>
+      sendUssdRequest([CBEBirr.BUY_AIRTIME, CBEBirr.FOR_ME, amount]);
 
-  void send_ussd_request(List<String> code) {
+  void buyAirtimeOthers(String amount, String phone) => sendUssdRequest(
+      [CBEBirr.BUY_AIRTIME, CBEBirr.FOR_OTHERS, CBEBirr.PHONE, phone, amount]);
+
+  void sendMoney(String amount, String phone) =>
+      sendUssdRequest([CBEBirr.SEND_MONEY, phone, amount]);
+
+  void sendUssdRequest(List<String> code, {bool confirmation = true}) {
     String ussd_code = "";
     if (code.length == 0)
       ussd_code = "*847#";
     else {
-      ussd_code = "*847"; 
+      ussd_code = "*847";
       for (final String i in code) {
         ussd_code += "*" + i;
       }
-      ussd_code += "*" + this.pin + "#";
+
+      ussd_code += "*" + ((!confirmation) ? this.pin : (this.pin + "*1")) + "#";
     }
-    print(ussd_code); 
+    print(ussd_code);
+    // return;
     Ussd.runUssd(ussd_code).then((value) {
       print(value);
     }).catchError((onError) {
